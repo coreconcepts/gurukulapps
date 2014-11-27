@@ -1,0 +1,219 @@
+---
+System:
+    DBConfig:
+        Url: localhost
+        DBName: testParserStorage
+        Port: 27017
+        IdMain: mainLocalhost
+    Parsing:
+        delay: 50000
+Application:
+    Admin:
+        FilesDir: "in"
+        ParsedDir: "parsed"
+        FileDelimiter: "\t"
+        ListDelimiter: ";"
+        SkipHeader: true
+        FilesExtractors:
+            - "file: src/test/resources/sam1.2-test.txt extractors: TermExtractor;PersonExtractor;DivisionExtractor;DepartmentExtractor;CourseExtractor;SectionExtractor;InstructorExtractor;EnrollmentExtractor"
+        Customer: testCustomer
+        Enrollment:
+            dropBefore: true
+            field:
+                institutionPersonId:
+                    columnNumber: 2
+                institutionSectionId:
+                    columnNumber: 25
+                institutionCourseId:
+                    columnNumber: 23
+                institutionDivisionId:
+                    columnNumber: 21
+                institutionDepartmentId:
+                    columnNumber: 22
+                institutionTermId:
+                    columnNumber: 28
+                role:
+                    columnNumber: 29
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Person:
+            field:
+                institutionPersonId:
+                    columnNumber: 2
+                givenName:
+                    columnNumber: 5
+                familyName:
+                    columnNumber: 3
+                email:
+                    columnNumber: 6
+                login:
+                    columnNumber: 9
+                phoneNumbers:
+                    phone1:
+                        columnNumber: 7
+                    phone2:
+                        columnNumber: 8
+                addresses:
+                    addressLine1:
+                        columnNumber: 14
+                    addressLine2:
+                        columnNumber: 15
+                    addressLine3:
+                        columnNumber: 16
+                    city:
+                        columnNumber: 17
+                    state:
+                        columnNumber: 18
+                    zip:
+                        columnNumber: 19
+                    country:
+                        columnNumber: 20
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Section:
+            field:
+                institutionSectionId:
+                    columnNumber: 25
+                institutionTermId:
+                    columnNumber: 28
+                institutionCourseId:
+                    columnNumber: 23
+                institutionDepartmentId:
+                    columnNumber: 22
+                institutionDivisionId:
+                    columnNumber: 21
+                shortDescription:
+                    columnNumber: 25
+                description:
+                    columnNumber: 24
+                sectionNumber:
+                    columnNumber: 25
+                status:
+                    columnNumber: 0
+                    default: A
+                relationship:
+                    default: parent 
+                courseNumber:
+                    columnNumber: 23
+                courseName:
+                    columnNumber: 23
+                courseDescription:
+                    columnNumber: 23
+                divisionShortDescription:
+                    columnNumber: 21
+                departmentShortDescription:
+                    columnNumber: 22
+                courseShortDescription:
+                    columnNumber: 23
+                termShortDescription:
+                    columnNumber: 28
+        Course:
+            field:
+                institutionCourseId:
+                    columnNumber: 23
+                institutionTermId:
+                    columnNumber: 28
+                institutionDepartmentId:
+                    columnNumber: 22
+                institutionDivisionId:
+                    columnNumber: 21
+                shortDescription:
+                    columnNumber: 23
+                description:
+                    columnNumber: 23
+                courseName:
+                    columnNumber: 23
+                courseNote:
+                    columnNumber: 23
+                courseNumber:
+                    columnNumber: 23
+                subjectCode:
+                    columnNumber: 22
+                departmentShortDescription:
+                    columnNumber: 22
+                divisionShortDescription:
+                    columnNumber: 21
+                termShortDescription:
+                    columnNumber: 28
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Department:
+            field:
+                institutionDepartmentId:
+                    columnNumber: 22
+                    default: BIOL
+                institutionDivisionId:
+                    columnNumber: 21
+                shortDescription:
+                    columnNumber: 22
+                    default: BIOL
+                description:
+                    columnNumber: 22
+                divisionShortDescription:
+                    columnNumber: 21
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Term:
+            field:
+                institutionTermId:
+                    columnNumber: 28
+                    alternativeColumnNumber: 12
+                    default: 201309
+                shortDescription:
+                    columnNumber: 28
+                    default: 201309
+                description:
+                    columnNumber: 11
+                    default: Fall 2013
+                dateBegin:
+                    default: "20-11-2013"
+                dateEnd:
+                    default: "20-12-2013"
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Division:
+            type: record
+            field:
+                institutionDivisionId:
+                    columnNumber: 21
+                    default: DFLT
+                shortDescription:
+                    columnNumber: 21
+                    default: DFLT
+                description:
+                    columnNumber: 21
+                    default: DFLT
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Instructor:
+            field:
+                institutionSectionId:
+                    columnNumber: 25
+                firstName:
+                    columnNumber: 5
+                lastName:
+                    columnNumber: 3
+                recordStatus:
+                    columnNumber: 0
+                    default: A
+        Store:
+            type: field
+            default: test
+        Campus:
+            type: field
+            default: testCampusId
+storeMap:
+    ? PAC
+    : "0048"
+campusMap:
+    ? PAC
+    : "0048"
+divisionMap:
+    ? PAC
+    : "0048"

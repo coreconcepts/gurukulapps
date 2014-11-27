@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+    <style type="text/css">
+/* Adjust feedback icon position */
+#movieForm .form-control-feedback {
+    right: 15px;
+}
+#movieForm .selectContainer .form-control-feedback {
+    right: 25px;
+}
+</style>
+    <!-- For dynamic table-->
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js"></script>
+    <style>
+    .table-sortable tbody tr {
+    	cursor: move;
+	}
+    </style>
+    <script th:inline="javascript">
+    	$(document).ready(function() {
+    		$("#add_row").on("click", function() {
+            // Dynamic Rows Code
+            
+            // Get max row id and set new id
+            var newid = 0;
+            $.each($("#tab_logic tr"), function() {
+                if (parseInt($(this).data("id")) > newid) {
+                    newid = parseInt($(this).data("id"));
+                }
+            });
+            newid++;
+            
+            var tr = $("<tr></tr>", {
+                id: "addr"+newid,
+                "data-id": newid
+            });
+            
+            // loop through each td and create new elements with name of newid
+            $.each($("#tab_logic tbody tr:nth(0) td"), function() {
+                var cur_td = $(this);
+                
+                var children = cur_td.children();
+                
+                // add new td and element if it has a nane
+                if ($(this).data("name") != undefined) {
+                    var td = $("<td></td>", {
+                        "data-name": $(cur_td).data("name")
+                    });
+                    
+                    var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                    c.attr("name", $(cur_td).data("name") + newid);
+                    c.appendTo($(td));
+                    td.appendTo($(tr));
+                } else {
+                    var td = $("<td></td>", {
+                        'text': $('#tab_logic tr').length
+                    }).appendTo($(tr));
+                }
+            });
+            
+            // add delete button and td
+            /*
+            $("<td></td>").append(
+                $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
+                    .click(function() {
+                        $(this).closest("tr").remove();
+                    })
+            ).appendTo($(tr));
+            */
+            
+            // add the new row
+            $(tr).appendTo($('#tab_logic'));
+            
+            $(tr).find("td button.row-remove").on("click", function() {
+                 $(this).closest("tr").remove();
+            });
+    });
+
+
+
+
+        // Sortable Code
+        var fixHelperModified = function(e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+        
+            $helper.children().each(function(index) {
+                $(this).width($originals.eq(index).width())
+            });
+            
+            return $helper;
+        };
+      
+        $(".table-sortable tbody").sortable({
+            helper: fixHelperModified      
+        }).disableSelection();
+
+        $(".table-sortable thead").disableSelection();
+
+
+
+        $("#add_row").trigger("click");
+    });
+    </script>
+        
+        <!--  For addrecipe.html-->
+        <style>
+    	.table-sortable tbody tr {
+    		cursor: move;
+		}
+    	@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+		body{margin-top:20px;}
+			.fa-fw {width: 2em;}
+		</style>
+    <title>Events</title>
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- Include bootstrap stylesheets -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+    
+        <div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li><a href="/addrecipe"><i class="fa fa-list-alt fa-fw"></i>Add Recipe</a></li>
+                <li><a href="/recipes"><i class="fa fa-file-o fa-fw"></i>Recipes</a></li>
+                <li class="active"><a href="/addevent" ><i class="fa fa-bar-chart-o fa-fw"></i>Add event</a></li>
+                <li><a href="/events"><i class="fa fa-table fa-fw"></i>Events</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Forms</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9 well" align="center">
+            Add Event
+        </div>
+        <div class="col-md-9 well">
+<!--******************************************************************************************************************************************* -->
+<form action="#" th:action="@{/addevent}" th:object="${event}" method="post" name="movieForm">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-8">
+                <label class="control-label">Event name</label>
+                <input type="text" class="form-control" name="title" th:field="*{eventName}" />
+            </div>
+
+            <div class="col-sm-4 selectContainer">
+                <label class="control-label">Genre</label>
+                <select class="form-control" name="genre">
+                    <option value="none">Choose a genre</option>
+                    <option value="onetime">One time</option>
+                    <option value="festival">Festival</option>
+                    <option value="regular">Regular</option>
+                    
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="control-label">Start date and time</label>
+                <input type="text" class="form-control" name="director" />
+            </div>
+
+            <div class="col-sm-4">
+                <label class="control-label">End date and time </label>
+                <input type="text" class="form-control" name="writer" />
+            </div>
+
+            <div class="col-sm-4">
+                <label class="control-label">Location</label>
+                 <select class="form-control" name="temperature">
+                    <option value="">Gurukul</option>
+                    <option value="action">Other</option>
+                 </select>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="form-group">
+        <label class="control-label">Details</label>
+        <textarea class="form-control" name="review" rows="8"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label">How it went?</label>
+        <div>
+            <label class="radio-inline">
+                <input type="radio" name="rating" value="average" /> Average
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rating" value="watchable" /> Good
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rating" value="best" /> Great
+            </label>
+        </div>
+    </div>
+	
+	<div class="form-group">
+        <label class="control-label">Learnings</label>
+        <textarea class="form-control" name="learning" rows="8" th:field="*{learning}" ></textarea>
+    </div>
+	
+	
+    <button type="submit" class="btn btn-default">Submit</button>
+    
+  
+    
+    
+</form>
+<!--  ************************************************************************************************************************ -->
+            
+        </div>
+    </div>
+</div>
+</body>
+</html>
