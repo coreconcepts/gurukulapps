@@ -146,7 +146,7 @@
         </div>
         <div class="col-md-9 well">
 <!--******************************************************************************************************************************************* -->
-<form action="#" th:action="@{/addevent}" th:object="${event}" method="post" name="movieForm">
+<form action="#" th:action="@{/event/create}" th:object="${event}" method="post" name="movieForm">
     <div class="form-group">
         <div class="row">
             <div class="col-sm-8">
@@ -156,7 +156,7 @@
 
             <div class="col-sm-4 selectContainer">
                 <label class="control-label">Genre</label>
-                <select class="form-control" name="genre">
+                <select class="form-control" name="eventGenre">
                     <option value="none">Choose a genre</option>
                     <option value="onetime">One time</option>
                     <option value="festival">Festival</option>
@@ -180,7 +180,7 @@
             </div>
 
             <div class="col-sm-4">
-                <label class="control-label">Location</label>
+                <label class="control-label">eventLocation</label>
                  <select class="form-control" name="temperature">
                     <option value="">Gurukul</option>
                     <option value="action">Other</option>
@@ -191,8 +191,8 @@
 
    
     <div class="form-group">
-        <label class="control-label">Details</label>
-        <textarea class="form-control" name="review" rows="8"></textarea>
+        <label class="control-label">Event Details</label>
+        <textarea class="form-control" name="eventDetails" th:field="*{eventDetails}" rows="8"></textarea>
     </div>
     
     <div class="form-group">
@@ -212,7 +212,7 @@
 	
 	<div class="form-group">
         <label class="control-label">Learnings</label>
-        <textarea class="form-control" name="learning" rows="8" th:field="*{learning}" ></textarea>
+        <textarea class="form-control" name="learning" rows="8" th:field="*{lessons}" ></textarea>
     </div>
 	
 	
