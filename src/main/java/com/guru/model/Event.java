@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
  
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import common.DataBean;
  
@@ -19,8 +22,8 @@ import common.DataBean;
  	private long id;
  	private String eventName;
  	private String eventGenre;
- 	private String eventStartTime;
- 	private String eventEndTime;
+ 	private Date eventStartTime;
+ 	private Date eventEndTime;
  	private String eventLocation;
  	private String eventDetails;
  	private String eventSelfRating;
@@ -33,8 +36,8 @@ import common.DataBean;
  		this.lessons=lessons;
  	}
  	
- 	public Event(String eventName, String eventGenre, String eventStartDate,
- 			String eventEndDate, String eventLocation, String eventDetails,
+ 	public Event(String eventName, String eventGenre, Date eventStartDate,
+ 			Date eventEndDate, String eventLocation, String eventDetails,
  			String eventSelfRating, String lessons) {
  		super();
  		this.eventName = eventName;
@@ -59,16 +62,16 @@ import common.DataBean;
  	public void setEventGenre(String eventGenre) {
  		this.eventGenre = eventGenre;
  	}
- 	public String getEventStartTime() {
+ 	public Date getEventStartTime() {
  		return eventStartTime;
  	}
- 	public void setEventStartTime(String eventStartTime) {
+ 	public void setEventStartTime(Date eventStartTime) {
  		this.eventStartTime = eventStartTime;
  	}
- 	public String getEventEndTime() {
+ 	public Date getEventEndTime() {
  		return eventEndTime;
  	}
- 	public void setEventEndTime(String eventEndTime) {
+ 	public void setEventEndTime(Date eventEndTime) {
  		this.eventEndTime = eventEndTime;
  	}
  	public String getEventLocation() {

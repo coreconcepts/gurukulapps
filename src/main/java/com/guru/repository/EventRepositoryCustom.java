@@ -1,4 +1,4 @@
-package com.guru.handlers;
+package com.guru.repository;
 
 import java.util.List;
 

@@ -1,36 +1,88 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-    <style>
-    	@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
-		body{margin-top:20px;}
-		.fa-fw {width: 2em;}
-    </style>
-    <title>Bootstrap Example</title>
-    <!-- Include meta tag to ensure proper rendering and touch zooming -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- Include bootstrap stylesheets -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
-    </head>
-    <body>
-        <div class="container" th:fragment="home">
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></li>
-                <li><a href="/addrecipe"><i class="fa fa-list-alt fa-fw"></i>Add Recipe</a></li>
-                <li><a href="/recipes"><i class="fa fa-file-o fa-fw"></i>Recipes</a></li>
-                <li><a href="/addevent"><i class="fa fa-bar-chart-o fa-fw"></i>Add event</a></li>
-                <li><a href="/events"><i class="fa fa-table fa-fw"></i>Events</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Forms</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
-            </ul>
-        </div>
-        
-    </div>
-</div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://templateplanet.info/tooltip.js"></script>
+<script src="http://templateplanet.info/modal.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- Include bootstrap stylesheets -->
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+
+
+
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+	});
+</script>
+<style type="text/css">
+	body { padding-top:20px; }
+	.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }
+</style>
+
+<title>Home</title>
+</head>
+<body>
+
+
+
+
+	<div class="container">
+		<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
+		<div class="container">
+			<div class="row">
+			<div class="col-md-2">
+			</div>
+				<div class="col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								<span class="glyphicon glyphicon-bookmark"></span> Under Development 
+							</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-6 col-md-6">
+									<a href="#" class="btn btn-danger btn-lg" role="button"><span
+										class="glyphicon glyphicon-list-alt"></span> <br />Add Recipe</a> <a
+										href="#" class="btn btn-warning btn-lg" role="button"><span
+										class="glyphicon glyphicon-bookmark"></span> <br />Recipes</a> <a
+										href="#" class="btn btn-primary btn-lg" role="button"><span
+										class="glyphicon glyphicon-signal"></span> <br />Forms</a> <a
+										href="#" class="btn btn-primary btn-lg" role="button"><span
+										class="glyphicon glyphicon-comment"></span> <br />Calender</a>
+								</div>
+								<div class="col-xs-6 col-md-6">
+									<a href="#" class="btn btn-success btn-lg" role="button-"><span
+										class="glyphicon glyphicon-user"></span> <br />Library</a> <a
+										href="#" class="btn btn-info btn-lg" role="button"><span
+										class="glyphicon glyphicon-file"></span> <br />Applications</a> <a
+										href="#" class="btn btn-primary btn-lg" role="button"><span
+										class="glyphicon glyphicon-picture"></span> <br />[____]</a> <a
+										href="#" class="btn btn-primary btn-lg" role="button"><span
+										class="glyphicon glyphicon-tag"></span> <br />[____]</a>
+								</div>
+							</div>
+							<a href="#"
+								class="btn btn-success btn-lg btn-block" role="button"><span
+								class="glyphicon glyphicon-globe"></span> Parent Website</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+
+
 </body>
 </html>

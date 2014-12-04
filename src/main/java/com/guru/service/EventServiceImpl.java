@@ -6,15 +6,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.guru.exceptions.EventNotFound;
-import com.guru.handlers.EventRepositoryCustom;
 import com.guru.model.Event;
+import com.guru.repository.EventRepositoryCustom;
 
 @Service
 public class EventServiceImpl implements EventService {
+	
+	@Autowired
+	UserService uServ;
 	
 	@Resource
 	private EventRepositoryCustom eventRepository;
@@ -26,6 +30,8 @@ public class EventServiceImpl implements EventService {
 		// Temporary arrangement.
 		event.setAuthorId(1000);
 		event.setCreateDate(new Date());
+		
+		//uServ.create(null);
 		
 		return eventRepository.save(createdEvent);
 	}

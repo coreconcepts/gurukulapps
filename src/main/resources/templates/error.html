@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<body>
+	<div class="container">
+    	<div class="row">
+       		<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
+       		<div class="col-md-5 well" align="center">
+            	<label class="control-label">Messages</label> 
+       		</div>
+       		<div class="col-md-4 well" align="center">
+       			<div th:replace="fragments/logout :: logout('Error Page')">&nbsp;</div>
+       		</div>
+       		<div class="col-md-9 well">
+				 <p th:text="${errorMessage}">java.lang.NullPointerException</p>
+				 <p th:text="${#httpServletRequest.remoteUser}">java.lang.NullPointerException</p>
+        	</div>
+      	</div>
+    </div>
+</body>
+</html>

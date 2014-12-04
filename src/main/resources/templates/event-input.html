@@ -10,6 +10,19 @@
     right: 25px;
 }
 </style>
+	<!--  Date Picker -->
+	<link rel="stylesheet" type="text/css" href="./jquery.datetimepicker.css"/>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
+  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  	<link rel="stylesheet" href="/resources/demos/style.css"/>
+  	<script>
+  	$(function() {
+    	$( "#eventStartTime" ).datepicker();
+    	$( "#eventEndTime" ).datepicker();
+  	});
+	</script>
+	<!-- Date Picker ends -->  
     <!-- For dynamic table-->
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -126,37 +139,23 @@
     
         <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></li>
-                <li><a href="/addrecipe"><i class="fa fa-list-alt fa-fw"></i>Add Recipe</a></li>
-                <li><a href="/recipes"><i class="fa fa-file-o fa-fw"></i>Recipes</a></li>
-                <li class="active"><a href="/addevent" ><i class="fa fa-bar-chart-o fa-fw"></i>Add event</a></li>
-                <li><a href="/events"><i class="fa fa-table fa-fw"></i>Events</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Forms</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>
-                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
-            </ul>
-        </div>
-        <div class="col-md-9 well" align="center">
-            Add Event
-        </div>
+        <div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
+       
+        
         <div class="col-md-9 well">
 <!--******************************************************************************************************************************************* -->
 <form action="#" th:action="@{/event/create}" th:object="${event}" method="post" name="movieForm">
     <div class="form-group">
         <div class="row">
             <div class="col-sm-8">
-                <label class="control-label">Event name</label>
+            	<label class="control-label">Event name</label> 
+            	<label style="color: red" th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}"></label>
                 <input type="text" class="form-control" name="title" th:field="*{eventName}" />
             </div>
 
             <div class="col-sm-4 selectContainer">
                 <label class="control-label">Genre</label>
-                <select class="form-control" name="eventGenre">
+                <select class="form-control" th:field="*{eventGenre}" >
                     <option value="none">Choose a genre</option>
                     <option value="onetime">One time</option>
                     <option value="festival">Festival</option>
@@ -164,27 +163,29 @@
                     
                 </select>
             </div>
+            
+            
         </div>
     </div>
 
     <div class="form-group">
         <div class="row">
             <div class="col-sm-4">
-                <label class="control-label">Start date and time</label>
-                <input type="text" class="form-control" name="director" />
+                <label class="control-label">Start Date</label>
+                <input type="text" class="form-control"  th:field="*{eventStartTime}" />
             </div>
 
             <div class="col-sm-4">
-                <label class="control-label">End date and time </label>
-                <input type="text" class="form-control" name="writer" />
+                <label class="control-label">End Date</label>
+                <input type="text" class="form-control" name="title" th:field="*{eventEndTime}" />
             </div>
 
             <div class="col-sm-4">
-                <label class="control-label">eventLocation</label>
-                 <select class="form-control" name="temperature">
-                    <option value="">Gurukul</option>
-                    <option value="action">Other</option>
-                 </select>
+                <label class="control-label">Event Location</label>
+                <select class="form-control" th:field="*{eventLocation}" >
+                    <option value="gurukul">Gurukul</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
         </div>
     </div>
@@ -192,27 +193,26 @@
    
     <div class="form-group">
         <label class="control-label">Event Details</label>
-        <textarea class="form-control" name="eventDetails" th:field="*{eventDetails}" rows="8"></textarea>
+        <textarea class="form-control" name="eventDetails" th:field="*{eventDetails}" rows="5" ></textarea>
     </div>
     
     <div class="form-group">
         <label class="control-label">How it went?</label>
         <div>
             <label class="radio-inline">
-                <input type="radio" name="rating" value="average" /> Average
+                <input type="radio" name="eventDetails" th:field="*{eventSelfRating}" value="average" /> Average
             </label>
             <label class="radio-inline">
-                <input type="radio" name="rating" value="watchable" /> Good
+                <input type="radio" name="eventDetails" th:field="*{eventSelfRating}" value="good" /> Good
             </label>
             <label class="radio-inline">
-                <input type="radio" name="rating" value="best" /> Great
+                <input type="radio" name="eventDetails" th:field="*{eventSelfRating}" value="great" /> Great
             </label>
         </div>
     </div>
 	
 	<div class="form-group">
-        <label class="control-label">Learnings</label>
-        <textarea class="form-control" name="learning" rows="8" th:field="*{lessons}" ></textarea>
+        <textarea class="form-control" name="learning" th:field="*{lessons}" rows="5" placeholder="Lessons"> </textarea>
     </div>
 	
 	
