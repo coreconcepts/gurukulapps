@@ -129,7 +129,7 @@
 		body{margin-top:20px;}
 			.fa-fw {width: 2em;}
 		</style>
-    <title>Events</title>
+    <title>Add Event</title>
     <!-- Include meta tag to ensure proper rendering and touch zooming -->
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- Include bootstrap stylesheets -->
@@ -154,9 +154,10 @@
             </div>
 
             <div class="col-sm-4 selectContainer">
-                <label class="control-label">Genre</label>
+            <label class="control-label">Genre</label>
+            <label style="color: red" th:if="${#fields.hasErrors('eventGenre')}" th:errors="*{eventGenre}"></label>
                 <select class="form-control" th:field="*{eventGenre}" >
-                    <option value="none">Choose a genre</option>
+                    <option value="">None</option>
                     <option value="onetime">One time</option>
                     <option value="festival">Festival</option>
                     <option value="regular">Regular</option>
@@ -172,16 +173,19 @@
         <div class="row">
             <div class="col-sm-4">
                 <label class="control-label">Start Date</label>
+                <label style="color: red" th:if="${#fields.hasErrors('eventStartTime')}" th:errors="*{eventStartTime}"></label>
                 <input type="text" class="form-control"  th:field="*{eventStartTime}" />
             </div>
 
             <div class="col-sm-4">
                 <label class="control-label">End Date</label>
+                <label style="color: red" th:if="${#fields.hasErrors('eventEndTime')}" th:errors="*{eventEndTime}"></label>
                 <input type="text" class="form-control" name="title" th:field="*{eventEndTime}" />
             </div>
 
             <div class="col-sm-4">
                 <label class="control-label">Event Location</label>
+                <label style="color: red" th:if="${#fields.hasErrors('eventLocation')}" th:errors="*{eventLocation}"></label>
                 <select class="form-control" th:field="*{eventLocation}" >
                     <option value="gurukul">Gurukul</option>
                     <option value="other">Other</option>
@@ -193,12 +197,14 @@
    
     <div class="form-group">
         <label class="control-label">Event Details</label>
+        <label style="color: red" th:if="${#fields.hasErrors('eventDetails')}" th:errors="*{eventDetails}"></label>
         <textarea class="form-control" name="eventDetails" th:field="*{eventDetails}" rows="5" ></textarea>
     </div>
     
     <div class="form-group">
         <label class="control-label">How it went?</label>
         <div>
+            <label style="color: red" th:if="${#fields.hasErrors('eventSelfRating')}" th:errors="*{eventSelfRating}"></label>
             <label class="radio-inline">
                 <input type="radio" name="eventDetails" th:field="*{eventSelfRating}" value="average" /> Average
             </label>
@@ -212,6 +218,7 @@
     </div>
 	
 	<div class="form-group">
+		<label style="color: red" th:if="${#fields.hasErrors('lessons')}" th:errors="*{lessons}"></label>
         <textarea class="form-control" name="learning" th:field="*{lessons}" rows="5" placeholder="Lessons"> </textarea>
     </div>
 	
@@ -227,5 +234,6 @@
         </div>
     </div>
 </div>
+<div th:replace="home :: logoutbutton">&nbsp;</div>
 </body>
 </html>

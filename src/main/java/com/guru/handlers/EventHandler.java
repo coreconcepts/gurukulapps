@@ -1,5 +1,6 @@
 package com.guru.handlers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,17 +17,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.guru.exceptions.EventNotFound;
 import com.guru.model.Event;
+import com.guru.model.User;
 import com.guru.service.EventService;
 import com.guru.validators.EventValidator;
 
 @Controller
 @RequestMapping(value="/event")
 public class EventHandler {
+	
 	
 	@Autowired
 	private EventService eventService;
@@ -35,6 +41,8 @@ public class EventHandler {
 	
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
+		CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true);
+        binder.registerCustomEditor(Date.class, editor);
 		binder.setValidator(eventValidator);
 	}
 	
@@ -61,6 +69,7 @@ public class EventHandler {
 		//String message = "New event "+event.getEventName()+" was successfully created.";
 		
 		eventService.create(event);
+		
 		mav.setViewName("redirect:/event/list");
 				
 		//redirectAttributes.addFlashAttribute("message", message);	
@@ -75,9 +84,14 @@ public class EventHandler {
 		return mav;
 	}
 	
-	//Prayer Event
 	
-@RequestMapping(value="/list/{id}", method=RequestMethod.GET)
+	
+	@RequestMapping(value="/details")
+	public @ResponseBody Event getLoginDetails(@RequestParam String id) {
+		Event event = eventService.findById(Integer.parseInt(id));
+		return event;
+	}
+	@RequestMapping(value="/list/{id}", method=RequestMethod.GET)
 	public ModelAndView eventPage(@PathVariable("id") String eventName) {
 		ModelAndView mav = new ModelAndView("event-list");
 		List<Event> eventList = new ArrayList<Event>(); 

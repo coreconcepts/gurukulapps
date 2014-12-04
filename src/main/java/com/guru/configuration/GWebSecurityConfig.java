@@ -20,24 +20,26 @@ public class GWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	setAuthorization(http);
-        //http
-            //.authorizeRequests()
-//                //.antMatchers("/", "/home").permitAll()
+    	
+    	http.authorizeRequests().antMatchers("/user/**").hasRole("ADMIN");
+    	
+    	http.authorizeRequests().antMatchers("styles.css").permitAll();
+    	
+    	http.authorizeRequests().anyRequest().authenticated().and()
+    		.formLogin().loginPage("/login").permitAll().and()
+    		.logout().permitAll();
+    	
+    	
+        
 //            	
 //            	.antMatchers("/**").hasAnyAuthority("ADMIN", "USER")
 //            	.antMatchers("*/user/input").hasRole("ADMIN")
 //            	.antMatchers("styles.css").permitAll()
 //            	.antMatchers("*/addrecipe").permitAll()
-//            	.anyRequest().authenticated()
-//                .and()
-//            .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//            .logout()
-                //.permitAll();
+//            	
+    	
             	
-           http.authorizeRequests().anyRequest().permitAll();
+           //http.authorizeRequests().anyRequest().permitAll();
     }
     private void setAuthorization (HttpSecurity http) throws Exception{
     	http.exceptionHandling().accessDeniedPage("/customerror");

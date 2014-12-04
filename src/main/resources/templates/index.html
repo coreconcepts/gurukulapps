@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://templateplanet.info/tooltip.js"></script>
+<script src="http://templateplanet.info/modal.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- Include bootstrap stylesheets -->
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+
+
+
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+	});
+</script>
+<style type="text/css">
+	body { padding-top:20px; }
+	.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }
+</style>
+
+<title>Index</title>
+</head>
+
 	<body>
-		<div th:replace="fragments/menu :: menu">&nbsp;</div>
+		<div th:replace="home :: homepage">&nbsp;</div>
+		<div th:replace="home :: logoutbutton">&nbsp;</div>
 	</body>
 </html>

@@ -22,8 +22,13 @@ public class EventValidator implements Validator {
 		Event event = (Event) target;
 		System.out.println("In Event Validator");
 		ValidationUtils.rejectIfEmpty(errors, "eventName", "event.eventName.empty");
-		ValidationUtils.rejectIfEmpty(errors, "eventDetails", "event.eventDetails.empty");
-		
+		ValidationUtils.rejectIfEmpty(errors, "eventDetails", "event.field.empty");
+		ValidationUtils.rejectIfEmpty(errors, "eventStartTime", "event.field.empty");
+		ValidationUtils.rejectIfEmpty(errors, "eventEndTime", "event.field.empty");
+		ValidationUtils.rejectIfEmpty(errors, "eventSelfRating", "event.field.empty");
+		ValidationUtils.rejectIfEmpty(errors, "lessons", "event.field.empty");
+		ValidationUtils.rejectIfEmpty(errors, "eventLocation", "event.field.empty");
+				
 		
 	}
 

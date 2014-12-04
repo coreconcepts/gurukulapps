@@ -4,7 +4,6 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 
-<title>Users - List</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet"
@@ -80,7 +79,7 @@
 	});
 </script>
 
-<title>Events</title>
+<title>Users</title>
 </head>
 <body>
 
@@ -149,6 +148,7 @@
 
 		</div>
 	</div>
+<div th:replace="home :: logoutbutton">&nbsp;</div>
 
 	<div class="modal fade" id="edit" tabindex="-1" role="dialog"
 		aria-labelledby="edit" aria-hidden="true" style="z-index: 2000;">

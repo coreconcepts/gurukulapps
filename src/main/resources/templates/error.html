@@ -4,17 +4,11 @@
 	<div class="container">
     	<div class="row">
        		<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
-       		<div class="col-md-5 well" align="center">
-            	<label class="control-label">Messages</label> 
-       		</div>
-       		<div class="col-md-4 well" align="center">
-       			<div th:replace="fragments/logout :: logout('Error Page')">&nbsp;</div>
-       		</div>
-       		<div class="col-md-9 well">
-				 <p th:text="${errorMessage}">java.lang.NullPointerException</p>
-				 <p th:text="${#httpServletRequest.remoteUser}">java.lang.NullPointerException</p>
+       		<div class="col-md-9 well" style="background-color: orange;">
+				 <span th:text="${errorMessage}">Access Error. Please contact Admin </span> <span th:text="${#httpServletRequest.remoteUser}">Unauthenticated User</span>
         	</div>
       	</div>
     </div>
+    <div th:replace="home :: logoutbutton">&nbsp;</div>
 </body>
 </html>

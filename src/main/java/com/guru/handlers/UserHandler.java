@@ -89,6 +89,11 @@ public class UserHandler {
 		
 		ModelAndView mav = new ModelAndView();
 		userService.create(user);
+		
+		if("PRIMARYKEYVOILATION".equals(user.getRole())){
+			return new ModelAndView("user-input", "user", user);
+		}
+		
 		mav.setViewName("redirect:/user/view/list");
 		return mav;		
 	}

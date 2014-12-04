@@ -32,7 +32,7 @@
 
 
 
-	<div class="container">
+	<div class="container" th:fragment="homepage" >
 		<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
 		<div class="container">
 			<div class="row">
@@ -70,7 +70,7 @@
 							</div>
 							<a href="#"
 								class="btn btn-success btn-lg btn-block" role="button"><span
-								class="glyphicon glyphicon-globe"></span> Parent Website</a>
+								class="glyphicon glyphicon-globe"></span> About us</a>
 						</div>
 					</div>
 				</div>
@@ -80,8 +80,21 @@
 
 	</div>
 
+<div class="container" th:fragment="logoutbutton">
+	<div class="col-md-5">
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="text-align: center;">
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="Sign Out" class="btn btn-default" />
+				</form>
+			</div>
+		</div>
+	</div>
+						
 
-
+</div>
 
 
 </body>

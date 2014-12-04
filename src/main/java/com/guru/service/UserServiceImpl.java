@@ -22,9 +22,20 @@ public class UserServiceImpl implements UserService {
 	private UserRepositoryCustom userRepository;
 
 	@Override
-	@Transactional
 	public User create(User iUser) {
-		return userRepository.save(iUser);
+		User user = new User();   //org.springframework.orm.jpa.JpaSystemException: org.hibernate.exception.ConstraintViolationException
+		try{
+			user = userRepository.save(iUser);
+		} catch( org.springframework.orm.jpa.JpaSystemException exception){
+			
+			if(exception.getCause().getCause().equals("org.hibernate.exception.ConstraintViolationException")){
+				System.out.println("in here");
+			}
+			iUser.setRole("PRIMARYKEYVOILATION");
+			user= iUser;
+			
+		}
+		 return user;
 	}
 	
 	@Override
