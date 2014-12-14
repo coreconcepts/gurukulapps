@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<!-- For dynamic table-->
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="../../../resources/js/bootstrap.min.js"></script>
+<style>
+.table-sortable tbody tr {
+	cursor: move;
+}
+</style>
+<script th:inline="javascript">
+	$(document)
+			.ready(
+					function() {
+						$("#add_row")
+								.on(
+										"click",
+										function() {
+											// Dynamic Rows Code
+
+											// Get max row id and set new id
+											var newid = 0;
+											$
+													.each(
+															$("#tab_logic tr"),
+															function() {
+																if (parseInt($(
+																		this)
+																		.data(
+																				"id")) > newid) {
+																	newid = parseInt($(
+																			this)
+																			.data(
+																					"id"));
+																}
+															});
+											newid++;
+
+											var tr = $("<tr></tr>", {
+												id : "addr" + newid,
+												"data-id" : newid
+											});
+
+											// loop through each td and create new elements with name of newid
+											$
+													.each(
+															$("#tab_logic tbody tr:nth(0) td"),
+															function() {
+																var cur_td = $(this);
+
+																var children = cur_td
+																		.children();
+
+																// add new td and element if it has a nane
+																if ($(this)
+																		.data(
+																				"name") != undefined) {
+																	var td = $(
+																			"<td></td>",
+																			{
+																				"data-name" : $(
+																						cur_td)
+																						.data(
+																								"name")
+																			});
+
+																	var c = $(
+																			cur_td)
+																			.find(
+																					$(
+																							children[0])
+																							.prop(
+																									'tagName'))
+																			.clone()
+																			.val(
+																					"");
+																	c
+																			.attr(
+																					"name",
+																					$(
+																							cur_td)
+																							.data(
+																									"name")
+																							+ newid);
+																	c
+																			.appendTo($(td));
+																	td
+																			.appendTo($(tr));
+																} else {
+																	var td = $(
+																			"<td></td>",
+																			{
+																				'text' : $('#tab_logic tr').length
+																			})
+																			.appendTo(
+																					$(tr));
+																}
+															});
+
+											// add delete button and td
+											/*
+											$("<td></td>").append(
+											    $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
+											        .click(function() {
+											            $(this).closest("tr").remove();
+											        })
+											).appendTo($(tr));
+											 */
+
+											// add the new row
+											$(tr).appendTo($('#tab_logic'));
+
+											$(tr)
+													.find(
+															"td button.row-remove")
+													.on(
+															"click",
+															function() {
+																$(this)
+																		.closest(
+																				"tr")
+																		.remove();
+															});
+										});
+
+						// Sortable Code
+						var fixHelperModified = function(e, tr) {
+							var $originals = tr.children();
+							var $helper = tr.clone();
+
+							$helper.children().each(function(index) {
+								$(this).width($originals.eq(index).width())
+							});
+
+							return $helper;
+						};
+
+						$(".table-sortable tbody").sortable({
+							helper : fixHelperModified
+						}).disableSelection();
+
+						$(".table-sortable thead").disableSelection();
+
+						$("#add_row").trigger("click");
+					});
+</script>
+
+<!--  For addrecipe.html-->
+<style>
+.table-sortable tbody tr {
+	cursor: move;
+}
+
+@import
+	url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css)
+	;
+
+body {
+	margin-top: 20px;
+}
+
+.fa-fw {
+	width: 2em;
+}
+</style>
+<title>Recipe Input</title>
+<!-- Include meta tag to ensure proper rendering and touch zooming -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Include bootstrap stylesheets -->
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+
+			<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
+			<div class="col-md-9 well">
+
+
+				<style type="text/css">
+/* Adjust feedback icon position */
+#movieForm .form-control-feedback {
+	right: 15px;
+}
+
+#movieForm .selectContainer .form-control-feedback {
+	right: 25px;
+}
+</style>
+				<!--  ############################################################################################################################################# -->
+				<form action="#" th:action="@{/recipe/add}" th:object="${recipe}"
+					method="post" name="movieForm">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-8">
+								<label class="control-label">Recipe name</label> 
+								<label style="color: red" th:if="${#fields.hasErrors('recipeName')}" th:errors="*{recipeName}"></label>
+								<input
+									type="text" class="form-control" name="recipeName" th:field="*{recipeName}"  id="recipeName" />
+							</div>
+
+							<div class="col-sm-4 selectContainer">
+								<label class="control-label">Type</label> 
+								<label style="color: red" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></label>
+								<select
+									class="form-control" name="genre" id="genre" th:field="*{genre}">
+									<option value="main">Main Food item</option>
+									<option value="snack">Snack</option>
+									<option value="sweet">Sweets</option>
+									<option value="drink">Drinks</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<label class="control-label">Lasts for (days)</label> 
+								<label style="color: red" th:if="${#fields.hasErrors('daysGoodFor')}" th:errors="*{daysGoodFor}"></label>
+								<input
+									type="text" class="form-control" name="daysGoodFor" id="daysGoodFor" th:field="*{daysGoodFor}"/>
+							</div>
+
+							<div class="col-sm-4">
+								<label class="control-label">Final Weight (kg) </label> 
+								<label style="color: red" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></label>
+								<input
+									type="text" class="form-control" name="weight"  id="weight" th:field="*{weight}" />
+							</div>
+
+							<div class="col-sm-4">
+								<label class="control-label">Best Served at</label> 
+								<label style="color: red" th:if="${#fields.hasErrors('temprature')}" th:errors="*{temprature}"></label>
+								<select
+									class="form-control" name="temperature" id="temprature" th:field="*{temprature}" >
+									<option value="roomtemprature">Room Temprature</option>
+									<option value="hot">Hot</option>
+									<option value="cold">Cold</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+					<label style="color: red" th:if="${#fields.hasErrors('process')}" th:errors="*{process}"></label>
+						<textarea class="form-control" name="process" rows="5" id="process"  th:field="*{process}"
+							placeholder="Process"></textarea>
+					</div>
+
+
+					
+		<table>
+			<thead>
+				<tr>
+					<th th:text="#{recipe.components.id}">S#</th>
+					<th th:text="#{recipe.components.name}">Name</th>
+					<th th:text="#{recipe.components.quantity}">quantity</th>
+					<th>
+						<button type="submit" name="addRow" th:text="#{component.row.add}" id="addrowbutton">Add
+							row</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="row,rowStat : *{components}">
+					<td th:text="${rowStat.count}">1</td>
+					<td><input type="text"
+						th:field="*{components[__${rowStat.index}__].name}" /></td>
+					<td><input type="text"
+						th:field="*{components[__${rowStat.index}__].quantity}" /></td>
+					<td>
+						<button type="submit" name="removeRow" th:value="${rowStat.index}"
+							th:text="#{component.row.remove}" id="revoverowbutton" >Remove row</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!--   <div th:replace="fragments/recipeitemslist :: header">&nbsp;</div>  -->
+					<button type="submit" class="btn btn-default">Submit</button>
+		
+
+	</form>
+
+
+
+				
+			</div>
+		</div>
+	</div>
+	
+
+
+</body>
+</html>
