@@ -33,10 +33,16 @@ public class GDatabaseConfig {
 //	private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
 //	private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
 //	private static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
-	private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
+	/*private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String PROPERTY_NAME_DATABASE_PASSWORD = "gurukul";
 	private static final String PROPERTY_NAME_DATABASE_URL = "jdbc:mysql://localhost:1000/gurukul";
 	private static final String PROPERTY_NAME_DATABASE_USERNAME = "gurukul";
+	*/
+	
+	private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
+	private static final String PROPERTY_NAME_DATABASE_PASSWORD = "rlStjuDEHy7v";
+	private static final String PROPERTY_NAME_DATABASE_URL = "jdbc:mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/rest";
+	private static final String PROPERTY_NAME_DATABASE_USERNAME = "adminhZDQHab";
 
 
 	private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";

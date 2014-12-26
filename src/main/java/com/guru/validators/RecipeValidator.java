@@ -21,14 +21,36 @@ public class RecipeValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Recipe recipe = (Recipe) target;
 		System.out.println("In Event Validator");
+		
+		//errors.rejectValue(field, errorCode, errorArgs, defaultMessage);
+		try{
+			Integer.parseInt(recipe.getDaysGoodFor());
+		} catch(NumberFormatException nfe) {
+			errors.rejectValue("daysGoodFor", "recipe.non.numeric");
+		}
+		
+		try{
+			Integer.parseInt(recipe.getWeight());
+		} catch(NumberFormatException nfe) {
+			errors.rejectValue("weight", "recipe.non.numeric");
+		}
+		for(com.guru.model.Component  component:  recipe.getComponents()){
+			try{	
+				Integer.parseInt(component.getQuantity());
+			} catch(NumberFormatException nfe) {
+				errors.rejectValue("components", "recipe.non.numeric");
+				break;
+			}
+		}
+		
 		ValidationUtils
-				.rejectIfEmpty(errors, "recipeName", "event.field.empty");
-		ValidationUtils.rejectIfEmpty(errors, "genre", "event.field.empty");
-		ValidationUtils.rejectIfEmpty(errors, "daysGoodFor",
+				.rejectIfEmptyOrWhitespace(errors, "recipeName", "event.field.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "genre", "event.field.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "daysGoodFor",
 				"event.field.empty");
-		ValidationUtils.rejectIfEmpty(errors, "weight", "event.field.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "weight", "event.field.empty");
 		ValidationUtils
-				.rejectIfEmpty(errors, "temprature", "event.field.empty");
+				.rejectIfEmptyOrWhitespace(errors, "temprature", "event.field.empty");
 		ValidationUtils.rejectIfEmpty(errors, "process", "event.field.empty");
 
 	}

@@ -154,6 +154,7 @@
             </div>
 
             <div class="col-sm-4 selectContainer">
+            
             <label class="control-label">Genre</label>
             <label style="color: red" th:if="${#fields.hasErrors('eventGenre')}" th:errors="*{eventGenre}"></label>
                 <select class="form-control" th:field="*{eventGenre}" >

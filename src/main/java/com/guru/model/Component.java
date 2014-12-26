@@ -14,6 +14,14 @@ public class Component {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	private String unit = "lbs";
+	
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 	private String quantity;
 	
 	public int getId() {

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class Application {
 
     public static void main(String[] args) throws Throwable {
-    	System.setProperty("server.port", "8082");
+    	//System.setProperty("server.port", "8082");
     	
         SpringApplication.run(Application.class, args);
     }

@@ -58,7 +58,7 @@
 	       <div class="col-md-9 well">
 				<form action="#" th:action="@{/user/create}" th:object="${user}" method="post" name="userForm">
 				
-				<span th:text="${user.role}">Access Error. Please contact Admin </span>
+				
 				<div class="error" th:if="${user.role == 'PRIMARYKEYVOILATION'}" th:with="errorMsg=#{login.exists}"> 
 				
 				

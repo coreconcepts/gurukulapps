@@ -202,21 +202,22 @@ body {
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-8">
-								<label class="control-label">Recipe name</label> 
-								<label style="color: red" th:if="${#fields.hasErrors('recipeName')}" th:errors="*{recipeName}"></label>
-								<input
-									type="text" class="form-control" name="recipeName" th:field="*{recipeName}"  id="recipeName" />
+								<label class="control-label">Recipe name</label> <label
+									style="color: red" th:if="${#fields.hasErrors('recipeName')}"
+									th:errors="*{recipeName}"></label> <input type="text"
+									class="form-control" name="recipeName" th:field="*{recipeName}"
+									id="recipeName" />
 							</div>
 
 							<div class="col-sm-4 selectContainer">
-								<label class="control-label">Type</label> 
-								<label style="color: red" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></label>
-								<select
-									class="form-control" name="genre" id="genre" th:field="*{genre}">
-									<option value="main">Main Food item</option>
-									<option value="snack">Snack</option>
-									<option value="sweet">Sweets</option>
-									<option value="drink">Drinks</option>
+								<label class="control-label">Type</label> <label
+									style="color: red" th:if="${#fields.hasErrors('genre')}"
+									th:errors="*{genre}"></label> <select class="form-control"
+									name="genre" id="genre" th:field="*{genre}">
+									<option value="Main food">Main Food item</option>
+									<option value="Snacks">Snack</option>
+									<option value="Sweets">Sweets</option>
+									<option value="Drinks">Drinks</option>
 								</select>
 							</div>
 						</div>
@@ -225,80 +226,138 @@ body {
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-4">
-								<label class="control-label">Lasts for (days)</label> 
-								<label style="color: red" th:if="${#fields.hasErrors('daysGoodFor')}" th:errors="*{daysGoodFor}"></label>
-								<input
-									type="text" class="form-control" name="daysGoodFor" id="daysGoodFor" th:field="*{daysGoodFor}"/>
+								<label class="control-label">Lasts for (days)</label> <label
+									style="color: red" th:if="${#fields.hasErrors('daysGoodFor')}"
+									th:errors="*{daysGoodFor}"></label> <input type="text"
+									class="form-control" name="daysGoodFor" id="daysGoodFor"
+									th:field="*{daysGoodFor}" />
 							</div>
 
 							<div class="col-sm-4">
-								<label class="control-label">Final Weight (kg) </label> 
-								<label style="color: red" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></label>
-								<input
-									type="text" class="form-control" name="weight"  id="weight" th:field="*{weight}" />
+								<label class="control-label">Final Weight (kg) </label> <label
+									style="color: red" th:if="${#fields.hasErrors('weight')}"
+									th:errors="*{weight}"></label> <input type="text"
+									class="form-control" name="weight" id="weight"
+									th:field="*{weight}" />
 							</div>
 
-							<div class="col-sm-4">
-								<label class="control-label">Best Served at</label> 
-								<label style="color: red" th:if="${#fields.hasErrors('temprature')}" th:errors="*{temprature}"></label>
-								<select
-									class="form-control" name="temperature" id="temprature" th:field="*{temprature}" >
+							
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<div class="row">
+						<div class="col-sm-4">
+								<label class="control-label">Best Served at</label> <label
+									style="color: red" th:if="${#fields.hasErrors('temprature')}"
+									th:errors="*{temprature}"></label> <select class="form-control"
+									name="temperature" id="temprature" th:field="*{temprature}">
 									<option value="roomtemprature">Room Temprature</option>
 									<option value="hot">Hot</option>
 									<option value="cold">Cold</option>
 								</select>
 							</div>
+							<div class="col-sm-4">
+								<label class="control-label">Person Count</label> <label
+									style="color: red" th:if="${#fields.hasErrors('personCount')}"
+									th:errors="personCount"></label> <input type="text"
+									class="form-control" name="daysGoodFor" id="personCount"
+									th:field="*{personCount}" />
+							</div>
+
+
 						</div>
 					</div>
 
 
 					<div class="form-group">
-					<label style="color: red" th:if="${#fields.hasErrors('process')}" th:errors="*{process}"></label>
-						<textarea class="form-control" name="process" rows="5" id="process"  th:field="*{process}"
-							placeholder="Process"></textarea>
+						<label style="color: red" th:if="${#fields.hasErrors('process')}"
+							th:errors="*{process}"></label>
+						<textarea class="form-control" name="process" rows="5"
+							id="process" th:field="*{process}" placeholder="Process"></textarea>
 					</div>
 
 
-					
-		<table>
-			<thead>
-				<tr>
-					<th th:text="#{recipe.components.id}">S#</th>
-					<th th:text="#{recipe.components.name}">Name</th>
-					<th th:text="#{recipe.components.quantity}">quantity</th>
-					<th>
-						<button type="submit" name="addRow" th:text="#{component.row.add}" id="addrowbutton">Add
-							row</button>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="row,rowStat : *{components}">
-					<td th:text="${rowStat.count}">1</td>
-					<td><input type="text"
-						th:field="*{components[__${rowStat.index}__].name}" /></td>
-					<td><input type="text"
-						th:field="*{components[__${rowStat.index}__].quantity}" /></td>
-					<td>
-						<button type="submit" name="removeRow" th:value="${rowStat.index}"
-							th:text="#{component.row.remove}" id="revoverowbutton" >Remove row</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<!--   <div th:replace="fragments/recipeitemslist :: header">&nbsp;</div>  -->
+
+					<table>
+						<thead>
+							<tr>
+								
+							</tr>
+							
+						</thead>
+						<tbody>
+						<tr>
+							<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<label class="control-label">Name</label>
+								</div>
+								<div class="col-sm-4">
+									<label class="control-label">Quantity</label>
+								</div>
+								<div class="col-sm-4">
+									<button type="submit" name="addRow" class="btn btn-default"
+ 										th:text="#{component.row.add}" id="addrowbutton">Add
+										row</button>
+										
+										
+								</div>
+							</div>
+							</div>
+							</tr>
+						
+						<tr>
+							<div class="form-group">
+							<div class="row">
+								<div class="col-sm-4">
+									<label style="color: red"
+										th:if="${#fields.hasErrors('components')}"
+										th:errors="*{components}"></label>
+								</div>
+							</div>
+							</div>
+							</tr>
+							<tr th:each="row,rowStat : *{components}">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{components[__${rowStat.index}__].name}" />
+										</div>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{components[__${rowStat.index}__].quantity}" />
+										</div>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{components[__${rowStat.index}__].unit}" />
+										</div>
+										<div class="col-sm-3">
+											<button type="submit" name="removeRow"
+												th:value="${rowStat.index}"
+												th:text="#{component.row.remove}" id="revoverowbutton"
+												class="btn btn-default">Remove row</button>
+										</div>
+									</div>
+								</div>
+							</tr>
+						</tbody>
+					</table>
+					<!--   <div th:replace="fragments/recipeitemslist :: header">&nbsp;</div>  -->
 					<button type="submit" class="btn btn-default">Submit</button>
-		
-
-	</form>
 
 
+				</form>
 
-				
+
+
+
 			</div>
 		</div>
 	</div>
-	
+
 
 
 </body>

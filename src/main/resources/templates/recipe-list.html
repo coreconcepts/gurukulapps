@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	
+	
+
+
+
+<script th:inline="javascript">
+    	$(document).ready(function(){
+    		
+    		$("#delete").on('hide', function () {
+    			
+    	        window.location.reload();
+    	    });
+    		$('#delete').on('hidden.bs.modal', function() {
+    			window.location.reload();
+    			return false;
+    		});
+    		
+    		
+    		$( "#delbutton" ).click(
+    				function() {
+    			  		$.ajax({
+    			  		  type: "GET",
+    			  		  url: "/recipe/delete",
+    			  		  data: { recipeId : $(this).val() }
+    			  		})
+    			  		  .done(function( msg ) {
+    			  		    alert( "Recipe: " + msg );
+    			  		  window.location.reload();
+    			  		  });
+    			  		
+    			  		
+    			  		
+    			  		
+    				}
+    		);
+    		
+    		
+    		
+    		
+    		
+    		
+    		$(document).on("click", "#editbutton", function() {
+    			
+    			$.getJSON("/recipe/details", {
+    				id : $(this).val()
+    			}, function(eventobj) {
+    				    				
+    				$("#edit #recipeName").val(eventobj.recipe.recipeName);
+    				$("#edit #genre").val(eventobj.recipe.genre);
+    				$("#edit #daysGoodFor").val(eventobj.recipe.daysGoodFor);
+    				$("#edit #weight").val(eventobj.recipe.weight);
+    				$("#edit #temprature").val(eventobj.recipe.temprature);
+    				$("#edit #personCount").val(eventobj.recipe.personCount);
+    				    				
+    				finalval = "";
+    				$.each(eventobj.allComponents, function(i, obj) {
+    						if(obj !=null){
+    					  		finalval =  finalval + '<tr>'  + obj.name + obj.unit + obj.quantity + '</tr>';  
+    						}
+    				});
+    				
+    				$("#edit #componentsdiv").html('<table>'+ finalval + '</table>' + eventobj.envRPersonCount);
+    				setTimeout(function() {
+    					$("#edit").modal('show')
+    				}, 3000);
+    			});
+    		});
+		$("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            	});
+        	}
+    	});
+		});
+ 		$(function () {
+            $("[rel='tooltip']").tooltip();
+        });
+    </script>
+
+<title>Recipes</title>
+</head>
+<body>
+	<div class="container">
+	<div th:replace="fragments/menu :: menu-div1">&nbsp;</div>
+		
+		<div class="row-md-10">
+			<div class="col-md-10">
+				<div class="table-responsive">
+					<table id="mytable" class="table table-bordred table-striped">
+						<thead>
+							<th><input type="checkbox" id="checkall" /></th>
+							<th>Recipe Name</th>
+							<th>Type</th>
+							<th>View</th>
+							<th>Delete</th>
+						</thead>
+						<tbody>
+							<tr th:each="recipe : ${recipes}">
+								<td><input type="checkbox" class="checkthis" /></td>
+								<td th:text="${recipe.recipeName}">Default</td>
+								<td th:text="${recipe.genre}">Default AM</td>
+								<td><p>
+										<button class="btn btn-primary btn-xs" data-title="Edit"
+											id="editbutton" th:value="${recipe.id}" data-toggle="modal"
+											data-target="#edit" data-placement="top" rel="tooltip">
+											<span class="glyphicon glyphicon-pencil"></span>
+										</button>
+									</p></td>
+								<td><p>
+										<button class="btn btn-primary btn-xs" data-title="Delete"
+											id="delbutton" th:value="${recipe.id}" >
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</p></td>
+							</tr>
+						</tbody>
+
+					</table>
+
+					<div class="clearfix"></div>
+					
+				</div>
+
+			</div>
+		</div>
+	</div>
+<div class="modal fade" id="delete" tabindex="-1" role="dialog"
+		aria-labelledby="edit" aria-hidden="true" style="z-index: 5000;">
+		
+		<div class="modal-dialog" style="z-index: 2000;">
+			<div class="modal-content" id="editcontent">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title custom_align" id="Heading"> Recipe</h4>
+				</div>
+				<div class="modal-body" id="editmodalbody">
+					
+					<div class="form-group">
+						<span class="label label-success">Name</span>
+						<input class="form-control " id="recipeName" type="text" placeholder=""  disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">Type</span>
+						<input class="form-control " id="genre" type="text" placeholder="" disabled="disabled"/>
+					</div>
+					
+					
+					<div class="form-group">
+						<span class="label label-success">Days Good For</span>	
+						<input class="form-control " type="text" placeholder="" name="login" id="daysGoodFor" value="" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">final weight</span>
+						<input class="form-control " type="text" placeholder="" name="login" id="weight" value="" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">Type</span>
+						<input class="form-control " type="text" placeholder="" name="login" id="temprature" value="" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">Process</span>
+						<textarea class="form-control" name="process" id="process" rows="5" disabled="disabled" ></textarea>
+					</div>
+					<div id ="componentsdiv" class="form-group">
+					<button type="button" class="btn btn-warning btn-lg" id="modelupdatebutton" style="width: 100%;">
+						<span class="glyphicon glyphicon-ok-sign"></span> Update
+					</button>
+					
+					</div>
+					
+			</div>
+				
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+
+
+	<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+		aria-labelledby="edit" aria-hidden="true" >
+		
+		<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script th:inline="javascript">
+			$(document).on("click", "#calculate", function() {
+				var personCount = $( "#editPersonCount" ).val();
+				rcpPersonCount = $("#rcpPersonCount").val();
+				$("[id^=qty]").each(function() {
+					var value = $( this ).val();
+					var id = $( this ).attr('id');
+					var cId = '#c'+id;
+					var cIdVar = $(cId).attr('id');
+					compQty =  value*(personCount/rcpPersonCount);
+					$(cId).val(compQty);
+				});
+			});
+			
+		</script>
+		<div class="modal-dialog" style="z-index: 2000;">
+			<div class="modal-content" id="editcontent">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title custom_align" id="Heading"> Recipe</h4>
+				</div>
+				<div class="modal-body" id="editmodalbody">
+					
+					<div class="form-group">
+						<span class="label label-success">Name</span>
+						<input class="form-control " id="recipeName" type="text" placeholder=""  disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">Type</span>
+						<input class="form-control " id="genre" type="text" placeholder="" disabled="disabled"/>
+					</div>
+					
+					
+					<div class="form-group">
+						<span class="label label-success">Days Good For</span>	
+						<input class="form-control " type="text" placeholder="" name="login" id="daysGoodFor" value="" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">final weight</span>
+						<input class="form-control " type="text" placeholder="" name="login" id="editWeight" value="" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<span class="label label-success">Type</span>
+						<input class="form-control " type="text" placeholder="" name="login" id="temprature" value="" disabled="disabled"/>
+					</div>
+					
+					
+					<div class="form-group">
+						<span class="label label-success">Person Count</span>
+						<input class="form-control " type="text" placeholder="" name="login" id="personCount" value="" disabled="disabled"/>
+					</div>
+					
+					
+					<div class="form-group">
+						<span class="label label-success">Process</span>
+						<textarea class="form-control" name="process" id="process" rows="5" disabled="disabled" ></textarea>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4">
+								<label class="control-label">Person Count</label>
+								<input class="form-control " type="text" placeholder="" name="personCount" id="editPersonCount" value="" />
+							</div>	
+						<div class="col-sm-4">
+								<label class="control-label">Calculate</label>
+								<button name="calculate" class="btn btn-default" value="tests"
+ 										id="calculate">Calculate
+					            </button>
+							</div>	
+					</div>
+					
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="control-label">Name</label>
+							</div>	
+							<div class="col-sm-3">
+								<label class="control-label">Unit</label>
+							</div>	
+							<div class="col-sm-3">
+								<label class="control-label">Amount</label>
+							</div>	
+							<div class="col-sm-3">
+								<label class="control-label">New Amount</label>
+							</div>	
+						</div>
+					
+					</div>
+					
+					<div id ="componentsdiv" class="form-group">
+					
+					</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+</html>

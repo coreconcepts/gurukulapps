@@ -26,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.guru.exceptions.RecipeNotFound;
 import com.guru.model.Component;
 import com.guru.model.Recipe;
+import com.guru.model.RecipeEnv;
+import com.guru.model.User;
 import com.guru.service.RecipeService;
 import com.guru.validators.RecipeValidator;
 
@@ -89,8 +91,8 @@ public class RecipeHandler {
 		}
 		
 		recipeService.create(recipe);
-		return new ModelAndView("recipe-input");
-		//return new ModelAndView("redirect:/recipe/list");
+		//return new ModelAndView("recipe-input");
+		return new ModelAndView("redirect:/recipe/list");
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -102,9 +104,27 @@ public class RecipeHandler {
 	}
 
 	@RequestMapping(value = "/details")
-	public @ResponseBody Recipe getLoginDetails(@RequestParam String id) {
+	public @ResponseBody RecipeEnv getLoginDetails(@RequestParam String id) {
 		Recipe recipe = recipeService.findById(Integer.parseInt(id));
-		return recipe;
+		RecipeEnv recipeEnv = new RecipeEnv();
+		recipeEnv.setEnvRPersonCount("<input id=\"rcpPersonCount\""  + "value =\""+ recipe.getPersonCount().intValue()+"\" type=\"hidden\" />");  //rcpPersonCount
+		recipeEnv.setRecipe(recipe);
+		Object[] objArray = recipe.getComponents().toArray();
+		Component[] componentArray = new Component[10];
+		int i =0;
+		for(Object obj: objArray){
+			componentArray[i] = (Component)objArray[i];
+			//'<input class="form-control" type="text" />';
+			componentArray[i].setName("<td><input id=\"compName_" + componentArray[i].getQuantity()+"\" disabled=\"disabled\" class=\"form-control\"" +" type=\"text\"" +" value=\""+componentArray[i].getName()+"\"" +"/></td>");
+			componentArray[i].setQuantity("<td><input id=\"qty_" + componentArray[i].getQuantity()+"\" disabled=\"disabled\" class=\"form-control\"" +" type=\"text\"" +" value=\""+componentArray[i].getQuantity()+"\"" +"/></td>"+ 
+					"<td><input id=\"cqty_" + componentArray[i].getQuantity()+"\" class=\"form-control\"" +" type=\"text\"" +" value=\""+componentArray[i].getQuantity()+"\"" +"/></td>");
+			componentArray[i].setUnit("<td><input id=\"compUnit_" + componentArray[i].getUnit()+"\" disabled=\"disabled\" class=\"form-control\"" +" type=\"text\"" +" value=\""+componentArray[i].getUnit()+"\"" +"/></td>");
+			
+			i++;
+		}
+		recipeEnv.setAllComponents(componentArray);
+		recipe.setComponents(null);
+		return recipeEnv;
 	}
 
 	@RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
@@ -141,18 +161,17 @@ public class RecipeHandler {
 		return mav;
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteRecipe(@PathVariable Integer id,
-			final RedirectAttributes redirectAttributes) throws RecipeNotFound {
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	//public @ResponseBody User edit(@RequestParam String login, @RequestParam String pass, @RequestParam String role, @RequestParam int enabled ) {
+	public @ResponseBody String deleteRecipe(@RequestParam Integer recipeId
+			) throws RecipeNotFound {
 
-		ModelAndView mav = new ModelAndView("redirect:/index.html");
-
-		Recipe recipe = recipeService.delete(id);
-		String message = "The recipe " + recipe.getRecipeName()
+		ModelAndView mav = new ModelAndView("redirect:/recipe/list");
+		
+		Recipe recipe = recipeService.delete(recipeId);
+		String message = "The recipe " 
 				+ " was successfully deleted.";
-
-		redirectAttributes.addFlashAttribute("message", message);
-		return mav;
+		return message;
 	}
 
 }

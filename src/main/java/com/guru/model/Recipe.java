@@ -1,5 +1,6 @@
 package com.guru.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Recipe {
+public class Recipe  implements Serializable{
 
 	@Id
 	@GeneratedValue
@@ -26,7 +27,26 @@ public class Recipe {
 	private String weight;
 	private String temprature;
 	private String process;
+	private Integer personCount;
 	
+	
+	
+	public int getRecipeId() {
+		return recipeId;
+	}
+
+	public void setRecipeId(int recipeId) {
+		this.recipeId = recipeId;
+	}
+
+	public Integer getPersonCount() {
+		return personCount;
+	}
+
+	public void setPersonCount(Integer personCount) {
+		this.personCount = personCount;
+	}
+
 	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "recipe")
 	private List<Component> components = new ArrayList<Component>();
 
@@ -96,8 +116,6 @@ public class Recipe {
 
 	}
 
-	
-
 	public List<Component> getComponents() {
 		return components;
 
@@ -105,8 +123,10 @@ public class Recipe {
 
 	public void setComponents(List<Component> components) {
 		this.components = components;
-		for (Component comp : components) {
-			comp.setRecipe(this);
+		if (components != null) {
+			for (Component comp : components) {
+				comp.setRecipe(this);
+			}
 		}
 	}
 
